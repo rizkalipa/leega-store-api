@@ -59,7 +59,7 @@ Route::group(['prefix' => 'sub-type-product'], function () {
 Route::group(['prefix' => 'cart'], function () {
     Route::get('/', [CartController::class, 'index'])->name('cart_list');
     Route::post('/', [CartController::class, 'save'])->name('cart_save');
-    Route::delete('/{cartId}', [CartController::class, 'delete'])->name('cart_delete');
+    Route::delete('/', [CartController::class, 'delete'])->name('cart_delete');
 });
 
 Route::group(['prefix' => 'order'], function () {

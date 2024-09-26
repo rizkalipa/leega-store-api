@@ -42,9 +42,11 @@ class CartController extends Controller
         return $this->sendResponse($cart, 'Success save to cart.', 201);
     }
 
-    public function delete(Cart $cart, $cartId)
+    public function delete(Request $request)
     {
+        $cartId = $request->input('cart_id');
         Cart::where('id', $cartId)->delete();
+
         return $this->sendResponse([], 'Cart deleted.');
     }
 }
