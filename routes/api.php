@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\SubTypeController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,8 @@ Route::group(['prefix' => 'sub-type-product'], function () {
     Route::put('/{subTypeId}', [SubTypeController::class, 'update'])->name('sub_type_update');
     Route::delete('/{subTypeId}', [SubTypeController::class, 'delete'])->name('sub_type_delete');
 });
+
+    Route::group(['prefix' => 'cart'], function () {
+        Route::get('/', [CartController::class, 'index'])->name('cart_list');
+        Route::post('/', [CartController::class, 'save'])->name('cart_save');
+    });
