@@ -13,23 +13,20 @@ use Illuminate\Database\Schema\Blueprint;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['type_product', 'sub_type_product'])->get();
-        return $this->sendResponse($products, 'List products.');
+        $type = $request->input('type', '');
+
+        $products = Product::select('name', 'type', 'sub_type', 'image', 'stock', 'price')
+            ->with(['type_product', 'sub_type_product']);
+
+        if ($type) {
+            $products->where('type', $type);
+        }
+
+        return $this->sendResponse($products->orderBy('name')->get(), 'List products.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function save(Request $request)
     {
         $validator = Validator::make(request()->all(), [
@@ -65,13 +62,6 @@ class ProductController extends Controller
         return $this->sendResponse($product, 'Success create product.', 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $productId)
     {
         $validator = Validator::make(request()->all(), [
@@ -108,16 +98,18 @@ class ProductController extends Controller
         return $this->sendResponse([], 'Success update product.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function delete(Product $product, $productId)
     {
         Product::where('id', $productId)->delete();
 
         return $this->sendResponse([], 'Success delete product.');
+    }
+
+    public function bestSeller() {
+        $products = Product::select('name', 'type', 'sub_type', 'image', 'stock', 'price')
+            ->limit(4)
+            ->with(['type_product', 'sub_type_product'])
+            ->get();
+        return $this->sendResponse($products, 'Product best seller.');
     }
 }
