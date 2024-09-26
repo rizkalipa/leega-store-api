@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\SubTypeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,13 @@ Route::group(['prefix' => 'sub-type-product'], function () {
     Route::delete('/{subTypeId}', [SubTypeController::class, 'delete'])->name('sub_type_delete');
 });
 
-    Route::group(['prefix' => 'cart'], function () {
-        Route::get('/', [CartController::class, 'index'])->name('cart_list');
-        Route::post('/', [CartController::class, 'save'])->name('cart_save');
-    });
+Route::group(['prefix' => 'cart'], function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart_list');
+    Route::post('/', [CartController::class, 'save'])->name('cart_save');
+});
+
+Route::group(['prefix' => 'order'], function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order_list');
+    Route::post('/checkout', [OrderController::class, 'save'])->name('order_save');
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order_detail');
+});

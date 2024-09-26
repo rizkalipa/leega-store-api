@@ -9,6 +9,9 @@ class Cart extends Model
 {
     use HasFactory;
 
+    public const STATUS_DEFAULT = 'N';
+    public const STATUS_CHECKOUT = 'C';
+
     protected $guarded = [];
 
     protected $primaryKey = 'id';

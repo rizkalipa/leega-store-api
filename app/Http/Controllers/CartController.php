@@ -12,9 +12,9 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $userId = $request->input('user_id');
-        $cart = Cart::select('id', 'user_id', 'product_id')
+        $cart = Cart::select('id', 'user_id', 'product_id', 'qty')
             ->where('user_id', $userId)
-            ->with('product')
+            ->with('product', 'product.type_product')
             ->get();
 
         return $this->sendResponse($cart, 'List cart.');
