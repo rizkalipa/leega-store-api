@@ -14,4 +14,8 @@ class OrderDetails extends Model
     protected $primaryKey = 'order_id';
 
     public $incrementing = false;
+
+    public function product() {
+        return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
 }

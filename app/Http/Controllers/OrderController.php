@@ -16,7 +16,7 @@ class OrderController extends Controller
         $userId = $request->input('user_id');
         $orders = Order::select('id', 'user_id', 'total', 'status')
             ->where('user_id', $userId)
-            ->with('order_details')
+            ->with(['order_details', 'order_details.product'])
             ->get();
 
         return $this->sendResponse($orders, 'List orders.');
