@@ -27,6 +27,14 @@ class ProductController extends Controller
         return $this->sendResponse($products->orderBy('name')->get(), 'List products.');
     }
 
+    public function show(Request $request, $productId) {
+        $product = Product::select('name', 'type', 'sub_type', 'image', 'stock', 'price')
+            ->where('id', $productId)
+            ->with(['type_product', 'sub_type_product'])
+            ->first();
+        return $this->sendResponse($product, 'Show products.');
+    }
+
     public function save(Request $request)
     {
         $validator = Validator::make(request()->all(), [

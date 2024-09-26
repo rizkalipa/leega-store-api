@@ -33,6 +33,7 @@ Route::get('/test', function () {
 
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'index'])->name('product_list');
+    Route::get('/{productId}', [ProductController::class, 'show'])->name('product_show');
     Route::get('/best-seller', [ProductController::class, 'bestSeller'])->name('product_best_seller');
     Route::post('/', [ProductController::class, 'save'])->name('product_save');
     Route::put('/{productId}', [ProductController::class, 'update'])->name('product_update');
