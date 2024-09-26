@@ -42,9 +42,26 @@ class CartController extends Controller
         return $this->sendResponse($cart, 'Success save to cart.', 201);
     }
 
-    public function delete(Request $request, $cartId)
+    public function delete(Request $request)
     {
-        Cart::where('id', $cartId)->delete();
+        $validator = Validator::make(request()->json()->all(), [
+            'user_id' => 'required',
+            'cart_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendResponse([], 'Validation error.', 400, false, $validator->errors());
+        }
+
+        $data = $request->json()->all();
+        $cartId = $data['cart_id'];
+        $userId = $data['user_id'];
+
+        Cart::where([
+            'id' => $cartId,
+            'user_id', $userId
+        ])->delete();
+
         return $this->sendResponse([], 'Cart deleted.');
     }
 }
