@@ -15,25 +15,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('cart_id');
-            $table->char('total');
-            $table->char('status');
-            $table->timestamps();
-        });
-
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('product_id');
-            $table->bigInteger('qty');
-            $table->timestamps();
-        });
-
         $type = $request->input('type', '');
-
         $products = Product::select('id', 'name', 'type', 'sub_type', 'image', 'stock', 'price')
             ->with(['type_product', 'sub_type_product']);
 

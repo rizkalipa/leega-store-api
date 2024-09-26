@@ -22,7 +22,7 @@ class CartController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
+        $validator = Validator::make(request()->json()->all(), [
             'user_id' => 'required',
             'product_id' => 'required',
             'qty' => 'nullable',
@@ -32,7 +32,7 @@ class CartController extends Controller
             return $this->sendResponse([], 'Validation error.', 400, false, $validator->errors());
         }
 
-        $data = $request->except('_token');
+        $data = $request->json()->all();
         $cart = Cart::create([
             'user_id' => $data['user_id'],
             'product_id' => $data['product_id'],
