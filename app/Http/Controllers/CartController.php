@@ -59,7 +59,7 @@ class CartController extends Controller
 
         Cart::where([
             'id' => $cartId,
-            'user_id', $userId
+            'user_id' => $userId
         ])->delete();
 
         return $this->sendResponse([], 'Cart deleted.');
